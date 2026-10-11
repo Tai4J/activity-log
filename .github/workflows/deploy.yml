@@ -2,7 +2,7 @@ name: CI/CD Deployment Pipeline
 
 on:
   push:
-    branches: [ main ]
+    branches: [ master ]
   workflow_dispatch: # 允許我們手動點擊按鈕觸發測試
 
 jobs:
