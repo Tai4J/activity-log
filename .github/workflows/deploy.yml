@@ -82,6 +82,7 @@ jobs:
   ai-pre-deploy-review:
     needs: deploy-staging
     runs-on: ubuntu-latest
+    environment: staging    # ← 如果原本沒有，這行要加上去
     permissions:
       contents: read # 【O級護欄】給予 AI 代理最低唯讀權限
     steps:
