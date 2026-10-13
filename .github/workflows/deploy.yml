@@ -112,7 +112,7 @@ jobs:
           echo "$AI_TEXT" >> $GITHUB_STEP_SUMMARY
 
   deploy-production:
-    needs: ai-pre-deploy-review
+    needs: [deploy-staging, ai-pre-deploy-review]
     runs-on: ubuntu-latest
     environment: production
     permissions:
