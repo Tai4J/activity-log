@@ -82,7 +82,7 @@ jobs:
   ai-pre-deploy-review:
     needs: deploy-staging
     runs-on: ubuntu-latest
-    environment: staging    # ← 如果原本沒有，這行要加上去
+    environment: staging    # scoped secret access for this job
     permissions:
       contents: read # 【O級護欄】給予 AI 代理最低唯讀權限
     steps:
