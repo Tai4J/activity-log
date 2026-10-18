@@ -36,8 +36,33 @@ jobs:
           name: build-artifact
           path: build.zip
 
-  deploy-dev:
+  test:
     needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Download Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: build-artifact
+
+      - name: Run Automated Tests
+        run: |
+          echo "Running automated tests..."
+          npm test || (echo "❌ Tests failed" && exit 1)
+
+  deploy-dev:
+    needs: test
     runs-on: ubuntu-latest
     environment: dev
     permissions:
