@@ -36,9 +36,33 @@ jobs:
           name: build-artifact
           path: build.zip
 
-  test:
+  test-unit:
     needs: build
     runs-on: ubuntu-latest
+    env:
+      TEST_ENV: staging
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run Unit Tests
+        run: |
+          echo "Running unit tests..."
+          npm run test:unit || (echo "❌ Unit tests failed" && exit 1)
+
+  test-integration:
+    needs: test-unit
+    runs-on: ubuntu-latest
+    env:
+      TEST_ENV: staging
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -56,13 +80,13 @@ jobs:
         with:
           name: build-artifact
 
-      - name: Run Automated Tests
+      - name: Run Integration Tests
         run: |
-          echo "Running automated tests..."
-          npm test || (echo "❌ Tests failed" && exit 1)
+          echo "Running integration tests..."
+          npm run test:integration || (echo "❌ Integration tests failed" && exit 1)
 
   deploy-dev:
-    needs: test
+    needs: test-integration
     runs-on: ubuntu-latest
     environment: dev
     permissions:
