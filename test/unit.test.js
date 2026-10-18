@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 
 test('unit: basic arithmetic', () => {
-  assert.strictEqual(1 + 1, 3); // 故意改錯，驗證自動開 Issue
+  assert.strictEqual(1 + 1, 2); // 故意改錯，驗證自動開 Issue
 });
 
 test('unit: string uppercase', () => {
