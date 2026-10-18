@@ -58,6 +58,13 @@ jobs:
           echo "Running unit tests..."
           npm run test:unit || (echo "❌ Unit tests failed" && exit 1)
 
+      - name: Upload Unit Test Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: unit-test-report
+          path: unit-report.xml
+
   test-integration:
     needs: test-unit
     runs-on: ubuntu-latest
@@ -84,6 +91,31 @@ jobs:
         run: |
           echo "Running integration tests..."
           npm run test:integration || (echo "❌ Integration tests failed" && exit 1)
+
+      - name: Upload Integration Test Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: integration-test-report
+          path: integration-report.xml
+
+  notify-on-failure:
+    needs: [test-unit, test-integration]
+    if: failure()
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: Create Issue on Test Failure
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          gh issue create \
+            --title "🚨 Test failure in run #${{ github.run_number }}" \
+            --body "Automated tests failed on commit \`${{ github.sha }}\` (branch \`${{ github.ref_name }}\`).
+          
+          View the failed run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
 
   deploy-dev:
     needs: test-integration
