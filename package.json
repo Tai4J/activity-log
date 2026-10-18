@@ -13,8 +13,8 @@
 		"build": "bun install && bunx ncc build src/index.js --license licenses.txt",
 		"lint:commit": "commitlint --last --verbose",
 		"test": "node test/mock.test.js",
-        "test:unit": "node --test --experimental-test-coverage --test-reporter=junit --test-reporter-destination=unit-report.xml test/unit.test.js",
-        "test:integration": "node --test --experimental-test-coverage --test-reporter=junit --test-reporter-destination=integration-report.xml test/integration.test.js"
+       "test:unit": "node --test --experimental-test-coverage --test-coverage-lines=80 --test-reporter=junit --test-reporter-destination=unit-report.xml test/unit.test.js",
+       "test:integration": "node --test --experimental-test-coverage --test-coverage-lines=80 --test-reporter=junit --test-reporter-destination=integration-report.xml test/integration.test.js"
 	},
 	"devDependencies": {
 		"@commitlint/cli": "^21.2.3",
