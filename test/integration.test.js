@@ -1,10 +1,7 @@
-import assert from 'assert';
-import fs from 'fs';
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
 
-console.log('Running integration tests...');
-console.log(`TEST_ENV = ${process.env.TEST_ENV}`);
-
-// 模擬整合測試：確認 build 產物確實存在
-assert.ok(fs.existsSync('build.zip'), 'build.zip artifact should exist');
-
-console.log('integration tests passed');
+test('integration: build artifact exists', () => {
+  assert.ok(fs.existsSync('build.zip'), 'build.zip artifact should exist');
+});
