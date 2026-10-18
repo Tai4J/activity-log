@@ -1,9 +1,10 @@
-import assert from 'assert';
+import test from 'node:test';
+import assert from 'node:assert/strict';
 
-console.log('Running unit tests...');
-console.log(`TEST_ENV = ${process.env.TEST_ENV}`);
+test('unit: basic arithmetic', () => {
+  assert.strictEqual(1 + 1, 2);
+});
 
-assert.strictEqual(1 + 1, 2);
-assert.strictEqual('hello'.toUpperCase(), 'HELLO');
-
-console.log('unit tests passed');
+test('unit: string uppercase', () => {
+  assert.strictEqual('hello'.toUpperCase(), 'HELLO');
+});
